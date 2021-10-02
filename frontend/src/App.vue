@@ -1,5 +1,5 @@
 <template>
-  <div class="topBar bars">
+  <div class="topBar fixed bars">
     <div class="topBarContent">
       <div class="topBarButton">
         <img src="@sicons/fa/UserPlus.svg" alt="添加好友" class="topBarIcon" />
@@ -17,7 +17,7 @@
       <router-view></router-view>
     </keep-alive>
   </div>
-  <div class="navigationBar bars">
+  <div class="navigationBar fixed bars">
     <router-link tag="div" class="navigationButton" to="/">
       <img src="@sicons/fa/MailBulk.svg" alt="对话" class="navigationIcon" />
     </router-link>
@@ -44,10 +44,13 @@
 .bars {
   display: flex;
   margin: 0;
-  position: fixed;
   left: 0;
   box-sizing: border-box;
   width: 100%;
+}
+
+.fixed.bars {
+  position: fixed;
 }
 
 .topBar {
@@ -76,8 +79,8 @@
 
 #title {
   color: white;
-  font-size: 20px;
-  font-weight: 20;
+  font-size: 22px;
+  font-weight: 600;
   font-family: 'Microsoft YaHei', '微软雅黑', 'MicrosoftJhengHei', '华文细黑', STHeiti, MingLiu;
 }
 
@@ -114,5 +117,60 @@
 </style>
 
 <script setup lang="ts">
+import moment from "moment";
+moment.locale("zh-cn");
+
 import { RouterLink } from "vue-router";
+import { useStore } from "./store";
+import {
+  Contact,
+  Message,
+  MessageContent,
+  MessageType,
+} from "./store/interfaces";
+import { ADD_CONTACT, ADD_MESSAGE } from "./store/mutationTypes";
+
+const store = useStore();
+
+store.commit(ADD_CONTACT, {
+  id: "114514",
+  nickname: "senpai",
+  avatar: "https://www.gravatar.com/avatar",
+} as Contact);
+
+store.commit(ADD_CONTACT, {
+  id: "114515",
+  nickname: "senpai2",
+  avatar: "https://www.gravatar.com/avatar",
+} as Contact);
+
+store.commit(ADD_MESSAGE, {
+  target: "114514",
+  message: {
+    content: [
+      {
+        type: MessageType.text,
+        content: "Hello there lorem ipsum some random jibberish",
+      } as MessageContent,
+    ],
+    timestamp: 1633183129760,
+    from: "114514",
+    to: "1919810",
+  } as Message,
+});
+
+store.commit(ADD_MESSAGE, {
+  target: "114515",
+  message: {
+    content: [
+      {
+        type: MessageType.text,
+        content: "Hello there lorem ipsum some random jibberish",
+      } as MessageContent,
+    ],
+    timestamp: 1633183529760,
+    from: "114515",
+    to: "1919810",
+  } as Message,
+});
 </script>
