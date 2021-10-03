@@ -17,8 +17,8 @@
       <router-view></router-view>
     </keep-alive>
   </div>
-  <div class="navigationBar fixed bars">
-    <router-link tag="div" class="navigationButton" to="/">
+  <div class="navigationBar fixed bars" v-show="showNavBar">
+    <router-link tag="div" class="navigationButton" to="/Conversations">
       <img src="@sicons/fa/MailBulk.svg" alt="对话" class="navigationIcon" />
     </router-link>
     <router-link tag="div" class="navigationButton" to="/Contacts">
@@ -106,7 +106,7 @@
   filter: brightness(0) saturate(100%) invert(57%) sepia(69%) saturate(1%) hue-rotate(334deg) brightness(95%) contrast(95%);
 }
 
-.activeNavigation, .navigationButton:active {
+.activeNavigation, .navigationIcon:active {
   filter: invert(40%) sepia(23%) saturate(6071%) hue-rotate(197deg) brightness(103%) contrast(101%);
 }
 
@@ -117,8 +117,18 @@
 </style>
 
 <script setup lang="ts">
+import { computed } from "@vue/reactivity";
 import moment from "moment";
 moment.locale("zh-cn");
+
+import { useRoute } from "vue-router";
+const route = useRoute();
+const showNavBar = computed(
+  () =>
+    route.name == "Conversations" ||
+    route.name == "Contacts" ||
+    route.name == "About"
+);
 
 import { RouterLink } from "vue-router";
 import { useStore } from "./store";

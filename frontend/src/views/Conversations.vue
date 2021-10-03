@@ -38,7 +38,7 @@ import moment from "moment";
 
 import { Contact, DEFAULT_AVATAR, DEFAULT_NICKNAME } from "../store/interfaces";
 
-import { useStore } from "../store";
+import { useStore } from "@/store";
 const store = useStore();
 
 const getContact = function (id: string): Contact | null {
@@ -86,6 +86,7 @@ const getContact = function (id: string): Contact | null {
 
 .conversationSection {
   margin-top: 15px;
+  padding-left: 5px;
 }
 
 .conversationContainer {

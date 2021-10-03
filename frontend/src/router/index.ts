@@ -1,9 +1,25 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 import ConversationsVue from "../views/Conversations.vue";
+import ContactsVue from "../views/Contacts.vue";
 
 const routes: Array<RouteRecordRaw> = [
-  { path: "/", component: ConversationsVue },
+  {
+    path: "/Conversations",
+    component: ConversationsVue,
+    name: "Conversations",
+  },
+  {
+    path: "/Contacts",
+    component: ContactsVue,
+    name: "Contacts",
+  },
+  {
+    path: "/About",
+    component: ConversationsVue,
+    name: "About",
+  },
+  { path: "/:pathMatch(.*)*", redirect: "/Conversations" },
 ];
 
 const router = createRouter({
