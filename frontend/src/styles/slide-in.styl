@@ -1,0 +1,12 @@
+.slide-in-left-leave-active, .slide-in-left-enter-active, .slide-in-right-enter-active, .slide-in-right-leave-active {
+    transition: 0.3s;
+    transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.slide-in-left-enter, .slide-in-left-leave, .slide-in-right-leave-to {
+    transform: translate(100%, 0);
+}
+
+.slide-in-left-leave-to, .slide-in-right-enter, .slide-in-right-leave {
+    transform: translate(-100%, 0);
+}

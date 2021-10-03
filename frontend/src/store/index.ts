@@ -1,12 +1,18 @@
 import { InjectionKey } from "vue";
 import { createStore, Store, useStore as baseUseStore } from "vuex";
 import { Contact, Message, NewMessage } from "./interfaces";
-import { ADD_CONTACT, ADD_MESSAGE, REMOVE_CONTACT } from "./mutationTypes";
+import {
+  ADD_CONTACT,
+  ADD_MESSAGE,
+  CHANGE_TRANSITION,
+  REMOVE_CONTACT,
+} from "./mutationTypes";
 
 export interface State {
   conversations: Map<string, Message[]>;
   contacts: Contact[];
   self: Contact;
+  transition: string;
 }
 
 export const key: InjectionKey<Store<State>> = Symbol();
@@ -20,6 +26,7 @@ export const store = createStore<State>({
       avatar: "https://www.gravatar.com/avatar",
       nickname: "senpai3",
     } as Contact,
+    transition: "slide-in-left",
   },
   mutations: {
     [ADD_CONTACT](state: State, contact: Contact) {
@@ -38,6 +45,9 @@ export const store = createStore<State>({
         state.conversations.get(newMessage.target) || [];
       currentConversation.push(newMessage.message);
       state.conversations.set(newMessage.target, currentConversation);
+    },
+    [CHANGE_TRANSITION](state: State, transition: string) {
+      state.transition = transition;
     },
   },
   actions: {},

@@ -23,9 +23,11 @@
       </div>
     </div>
     <div class="currentView">
-      <keep-alive>
-        <router-view></router-view>
-      </keep-alive>
+      <router-view v-slot="{ Component }">
+        <transition :name="store.state.transition" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </div>
     <div class="navigationBar fixed bars" v-show="showNavBar">
       <router-link tag="div" class="navigationButton" to="/Conversations">
@@ -52,6 +54,7 @@
 <style lang="stylus">
 @import 'styles/config.styl';
 @import 'styles/ripple.styl';
+@import 'styles/slide-in.styl';
 
 html {
   height: 100%;
@@ -142,18 +145,18 @@ span {
   bottom: 0;
   justify-content: space-evenly;
   border-top: 1px solid $disabled-grey;
+  align-items: center;
 }
 
 .navigationButton {
   width: 50px;
   display: flex;
   justify-content: center;
-  padding-top: 10px;
 }
 
 .navigationIcon {
-  width: 25px;
-  height: 25px;
+  width: 35px;
+  height: 35px;
   // generated using : https://codepen.io/sosuke/pen/Pjoqqp
   filter: brightness(0) saturate(100%) invert(57%) sepia(69%) saturate(1%) hue-rotate(334deg) brightness(95%) contrast(95%);
 }

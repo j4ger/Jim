@@ -43,6 +43,12 @@ import { Contact, DEFAULT_AVATAR, DEFAULT_NICKNAME } from "../store/interfaces";
 import { useStore } from "@/store";
 const store = useStore();
 
+import { onBeforeRouteLeave } from "vue-router";
+import { CHANGE_TRANSITION } from "@/store/mutationTypes";
+onBeforeRouteLeave(() => {
+  store.commit(CHANGE_TRANSITION, "slide-in-right");
+});
+
 const getContact = function (id: string): Contact | null {
   let result = null;
   store.state.contacts.forEach((element) => {

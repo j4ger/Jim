@@ -1,31 +1,39 @@
 <template>
-  <div class="selfContainer">
-    <div class="selfContent">
-      <span class="selfName">{{ store.state.self.nickname }}</span>
-      <span class="selfId">{{ store.state.self.id }}</span>
+  <div>
+    <div class="selfContainer">
+      <div class="selfContent">
+        <span class="selfName">{{ store.state.self.nickname }}</span>
+        <span class="selfId">{{ store.state.self.id }}</span>
+      </div>
+      <img class="selfAvatar" :src="store.state.self.avatar" alt="头像" />
     </div>
-    <img class="selfAvatar" :src="store.state.self.avatar" alt="头像" />
-  </div>
-  <div class="menuContainer">
-    <div class="menuItem ripple">
-      <img src="@sicons/fa/Inbox.svg" alt="图标" class="menuIcon" />
-      <span class="menuText">邮件</span>
-    </div>
-    <div class="menuItem ripple">
-      <img src="@sicons/fa/StarOfLife.svg" alt="图标" class="menuIcon" />
-      <span class="menuText">空间</span>
-    </div>
-    <div class="menuItem ripple">
-      <img src="@sicons/fa/MoneyBillAlt.svg" alt="图标" class="menuIcon" />
-      <span class="menuText">钱包</span>
+    <div class="menuContainer">
+      <div class="menuItem ripple">
+        <img src="@sicons/fa/Inbox.svg" alt="图标" class="menuIcon" />
+        <span class="menuText">邮件</span>
+      </div>
+      <div class="menuItem ripple">
+        <img src="@sicons/fa/StarOfLife.svg" alt="图标" class="menuIcon" />
+        <span class="menuText">空间</span>
+      </div>
+      <div class="menuItem ripple">
+        <img src="@sicons/fa/MoneyBillAlt.svg" alt="图标" class="menuIcon" />
+        <span class="menuText">钱包</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useStore } from "@/store";
+import { CHANGE_TRANSITION } from "@/store/mutationTypes";
+import { onBeforeRouteLeave } from "vue-router";
 
 const store = useStore();
+
+onBeforeRouteLeave(() => {
+  store.commit(CHANGE_TRANSITION, "slide-in-left");
+});
 </script>
 
 <style lang="stylus">

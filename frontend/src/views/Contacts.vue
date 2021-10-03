@@ -25,7 +25,17 @@
 
 <script setup lang="ts">
 import { useStore } from "@/store";
+import { CHANGE_TRANSITION } from "@/store/mutationTypes";
+import { onBeforeRouteLeave } from "vue-router";
 const store = useStore();
+
+onBeforeRouteLeave((to) => {
+  if (to.fullPath == "/Conversations") {
+    store.commit(CHANGE_TRANSITION, "slide-in-left");
+  } else {
+    store.commit(CHANGE_TRANSITION, "slide-in-right");
+  }
+});
 </script>
 <style lang="stylus">
 @import '../styles/config.styl';
