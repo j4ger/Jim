@@ -16,7 +16,9 @@
         </div>
       </div>
       <div class="topBarContent">
-        <span id="title">{{ route.name }}</span>
+        <span id="title">{{
+          route.meta.fixedTitle ? route.name : store.state.title
+        }}</span>
       </div>
       <div class="topBarContent">
         <img src="@sicons/fa/Plus.svg" alt="添加" class="topBarIcon" />

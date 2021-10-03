@@ -31,9 +31,9 @@ const store = useStore();
 
 onBeforeRouteLeave((to) => {
   if (to.fullPath == "/Conversations") {
-    store.commit(CHANGE_TRANSITION, "slide-in-left");
-  } else {
     store.commit(CHANGE_TRANSITION, "slide-in-right");
+  } else {
+    store.commit(CHANGE_TRANSITION, "slide-in-left");
   }
 });
 </script>

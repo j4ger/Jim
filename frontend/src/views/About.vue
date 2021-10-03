@@ -32,7 +32,7 @@ import { onBeforeRouteLeave } from "vue-router";
 const store = useStore();
 
 onBeforeRouteLeave(() => {
-  store.commit(CHANGE_TRANSITION, "slide-in-left");
+  store.commit(CHANGE_TRANSITION, "slide-in-right");
 });
 </script>
 

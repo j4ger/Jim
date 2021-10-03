@@ -46,7 +46,7 @@ const store = useStore();
 import { onBeforeRouteLeave } from "vue-router";
 import { CHANGE_TRANSITION } from "@/store/mutationTypes";
 onBeforeRouteLeave(() => {
-  store.commit(CHANGE_TRANSITION, "slide-in-right");
+  store.commit(CHANGE_TRANSITION, "slide-in-left");
 });
 
 const getContact = function (id: string): Contact | null {

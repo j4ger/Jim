@@ -4,6 +4,7 @@ import { Contact, Message, NewMessage } from "./interfaces";
 import {
   ADD_CONTACT,
   ADD_MESSAGE,
+  CHANGE_TITLE,
   CHANGE_TRANSITION,
   REMOVE_CONTACT,
 } from "./mutationTypes";
@@ -13,6 +14,7 @@ export interface State {
   contacts: Contact[];
   self: Contact;
   transition: string;
+  title: string;
 }
 
 export const key: InjectionKey<Store<State>> = Symbol();
@@ -27,6 +29,7 @@ export const store = createStore<State>({
       nickname: "senpai3",
     } as Contact,
     transition: "slide-in-left",
+    title: "",
   },
   mutations: {
     [ADD_CONTACT](state: State, contact: Contact) {
@@ -48,6 +51,9 @@ export const store = createStore<State>({
     },
     [CHANGE_TRANSITION](state: State, transition: string) {
       state.transition = transition;
+    },
+    [CHANGE_TITLE](state: State, title: string) {
+      state.title = title;
     },
   },
   actions: {},

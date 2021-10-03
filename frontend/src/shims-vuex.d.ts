@@ -8,6 +8,7 @@ declare module "@vue/runtime-core" {
     contacts: Contact[];
     self: Contact;
     transition: string;
+    title: string;
   }
 
   interface ComponentCustomProperties {
