@@ -2,22 +2,23 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 import ConversationsVue from "../views/Conversations.vue";
 import ContactsVue from "../views/Contacts.vue";
+import AboutVue from "../views/About.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/Conversations",
     component: ConversationsVue,
-    name: "Conversations",
+    name: "对话",
   },
   {
     path: "/Contacts",
     component: ContactsVue,
-    name: "Contacts",
+    name: "联系人",
   },
   {
     path: "/About",
-    component: ConversationsVue,
-    name: "About",
+    component: AboutVue,
+    name: "关于我",
   },
   { path: "/:pathMatch(.*)*", redirect: "/Conversations" },
 ];

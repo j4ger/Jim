@@ -6,6 +6,7 @@ import { ADD_CONTACT, ADD_MESSAGE, REMOVE_CONTACT } from "./mutationTypes";
 export interface State {
   conversations: Map<string, Message[]>;
   contacts: Contact[];
+  self: Contact;
 }
 
 export const key: InjectionKey<Store<State>> = Symbol();
@@ -14,6 +15,11 @@ export const store = createStore<State>({
   state: {
     conversations: new Map(),
     contacts: [],
+    self: {
+      id: "114519",
+      avatar: "https://www.gravatar.com/avatar",
+      nickname: "senpai3",
+    } as Contact,
   },
   mutations: {
     [ADD_CONTACT](state: State, contact: Contact) {

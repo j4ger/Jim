@@ -1,34 +1,36 @@
 <template>
-  <div class="searchBar bars">
-    <div class="searchBlock">
-      <div class="searchHint">
-        <img src="@sicons/fa/Search.svg" alt="搜索" class="searchIcon" />
-        <span class="searchText">搜索</span>
+  <div class="viewContainer">
+    <div class="searchBar bars">
+      <div class="searchBlock">
+        <div class="searchHint">
+          <img src="@sicons/fa/Search.svg" alt="搜索" class="searchIcon" />
+          <span class="searchText">搜索</span>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="conversationSection">
-    <div
-      class="conversationContainer"
-      v-for="(conversation, index) in store.state.conversations"
-      :key="index"
-    >
-      <img
-        class="avatarIcon"
-        :src="getContact(conversation[0])?.avatar ?? DEFAULT_AVATAR"
-        alt="头像"
-      />
-      <div class="conversationContent">
-        <span class="conversationContactName">{{
-          getContact(conversation[0])?.nickname ?? DEFAULT_NICKNAME
-        }}</span>
-        <span class="messageDigest">{{
-          conversation[1][0].content[0].content
+    <div class="conversationSection">
+      <div
+        class="conversationContainer"
+        v-for="(conversation, index) in store.state.conversations"
+        :key="index"
+      >
+        <img
+          class="avatarIcon"
+          :src="getContact(conversation[0])?.avatar ?? DEFAULT_AVATAR"
+          alt="头像"
+        />
+        <div class="conversationContent">
+          <span class="conversationContactName">{{
+            getContact(conversation[0])?.nickname ?? DEFAULT_NICKNAME
+          }}</span>
+          <span class="messageDigest">{{
+            conversation[1][0].content[0].content
+          }}</span>
+        </div>
+        <span class="messageTime">{{
+          moment(conversation[1][0].timestamp).fromNow()
         }}</span>
       </div>
-      <span class="messageTime">{{
-        moment(conversation[1][0].timestamp).fromNow()
-      }}</span>
     </div>
   </div>
 </template>
@@ -52,37 +54,6 @@ const getContact = function (id: string): Contact | null {
 
 <style lang="stylus">
 @import '../styles/config.styl';
-
-.searchBar {
-  height: 30px;
-  margin-bottom: 10px;
-}
-
-.searchBlock {
-  background-color: $background-grey;
-  width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-radius: 2%;
-  padding-top: 1px;
-}
-
-.searchHint {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.searchIcon {
-  height: 12px;
-  width: 12px;
-  margin-right: 4px;
-  filter: invert(68%) sepia(0%) saturate(102%) hue-rotate(284deg) brightness(95%) contrast(82%);
-}
-
-.searchText {
-  font-size: 16px;
-  color: $disabled-grey;
-}
 
 .conversationSection {
   margin-top: 15px;

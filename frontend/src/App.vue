@@ -1,45 +1,93 @@
 <template>
-  <div class="topBar fixed bars">
-    <div class="topBarContent">
-      <div class="topBarButton">
-        <img src="@sicons/fa/UserPlus.svg" alt="添加好友" class="topBarIcon" />
+  <div class="background" id="backgroundLayer1">
+    <div class="background" id="backgroundLayer2">
+      <div class="background" id="backgroundLayer3"></div>
+    </div>
+  </div>
+  <div class="mainContent">
+    <div class="topBar fixed bars">
+      <div class="topBarContent">
+        <div class="topBarButton">
+          <img
+            src="@sicons/fa/UserPlus.svg"
+            alt="添加好友"
+            class="topBarIcon"
+          />
+        </div>
+      </div>
+      <div class="topBarContent">
+        <span id="title">{{ route.name }}</span>
+      </div>
+      <div class="topBarContent">
+        <img src="@sicons/fa/Plus.svg" alt="添加" class="topBarIcon" />
       </div>
     </div>
-    <div class="topBarContent">
-      <span id="title">消息</span>
+    <div class="currentView">
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </div>
-    <div class="topBarContent">
-      <img src="@sicons/fa/Plus.svg" alt="添加" class="topBarIcon" />
+    <div class="navigationBar fixed bars" v-show="showNavBar">
+      <router-link tag="div" class="navigationButton" to="/Conversations">
+        <img src="@sicons/fa/MailBulk.svg" alt="对话" class="navigationIcon" />
+      </router-link>
+      <router-link tag="div" class="navigationButton" to="/Contacts">
+        <img
+          src="@sicons/fa/AddressBook.svg"
+          alt="联系人"
+          class="navigationIcon"
+        />
+      </router-link>
+      <router-link tag="div" class="navigationButton" to="/About">
+        <img
+          src="@sicons/fa/LaughRegular.svg"
+          alt="我的"
+          class="navigationIcon"
+        />
+      </router-link>
     </div>
-  </div>
-  <div class="currentView">
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
-  </div>
-  <div class="navigationBar fixed bars" v-show="showNavBar">
-    <router-link tag="div" class="navigationButton" to="/Conversations">
-      <img src="@sicons/fa/MailBulk.svg" alt="对话" class="navigationIcon" />
-    </router-link>
-    <router-link tag="div" class="navigationButton" to="/Contacts">
-      <img
-        src="@sicons/fa/AddressBook.svg"
-        alt="联系人"
-        class="navigationIcon"
-      />
-    </router-link>
-    <router-link tag="div" class="navigationButton" to="/About">
-      <img
-        src="@sicons/fa/LaughRegular.svg"
-        alt="我的"
-        class="navigationIcon"
-      />
-    </router-link>
   </div>
 </template>
 
 <style lang="stylus">
 @import 'styles/config.styl';
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+.background {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 0;
+}
+
+#backgroundLayer1 {
+  background-color: $blue-in-general;
+  clip-path: polygon(0 0, 100% 0, 100% 13%, 0 25%);
+}
+
+#backgroundLayer2 {
+  background-color: $dark-blue;
+  clip-path: polygon(73% 0, 100% 25%, 100% 0);
+}
+
+#backgroundLayer3 {
+  background-color: $deep-dark-blue;
+  clip-path: polygon(73% 0, 75% 4%, 90% 0);
+}
+
+.mainContent {
+  position: absolute;
+  width: 100%;
+}
 
 .bars {
   display: flex;
@@ -56,9 +104,10 @@
 .topBar {
   justify-content: space-between;
   height: $bar-height;
-  background-color: $blue-in-general;
+  // background-color: $blue-in-general;
   top: 0;
   padding: 10px 20px;
+  z-index: 1;
 }
 
 .topBarContent {
@@ -112,7 +161,43 @@
 
 .currentView {
   width: 100%;
-  margin: ($bar-height + 10px) 0 0 0;
+  margin: $bar-height 0 0 0;
+}
+
+.viewContainer {
+  background-color: white;
+  padding: 5px 5px;
+}
+
+.searchBar {
+  height: 30px;
+  margin-bottom: 10px;
+}
+
+.searchBlock {
+  background-color: $background-grey;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 2%;
+  padding-top: 1px;
+}
+
+.searchHint {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.searchIcon {
+  height: 12px;
+  width: 12px;
+  margin-right: 4px;
+  filter: invert(68%) sepia(0%) saturate(102%) hue-rotate(284deg) brightness(95%) contrast(82%);
+}
+
+.searchText {
+  font-size: 16px;
+  color: $disabled-grey;
 }
 </style>
 
@@ -124,10 +209,7 @@ moment.locale("zh-cn");
 import { useRoute } from "vue-router";
 const route = useRoute();
 const showNavBar = computed(
-  () =>
-    route.name == "Conversations" ||
-    route.name == "Contacts" ||
-    route.name == "About"
+  () => route.name == "对话" || route.name == "联系人" || route.name == "关于我"
 );
 
 import { RouterLink } from "vue-router";
