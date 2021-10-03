@@ -51,6 +51,7 @@
 
 <style lang="stylus">
 @import 'styles/config.styl';
+@import 'styles/ripple.styl';
 
 html {
   height: 100%;
@@ -104,7 +105,6 @@ body {
 .topBar {
   justify-content: space-between;
   height: $bar-height;
-  // background-color: $blue-in-general;
   top: 0;
   padding: 10px 20px;
   z-index: 1;
@@ -129,8 +129,11 @@ body {
 #title {
   color: white;
   font-size: 22px;
-  font-weight: 600;
-  font-family: 'Microsoft YaHei', '微软雅黑', 'MicrosoftJhengHei', '华文细黑', STHeiti, MingLiu;
+  // font-weight: 600;
+}
+
+span {
+  font-family: 'Microsoft Yahei', '微软雅黑', 'MicrosoftJhengHei', '华文细黑', STHeiti, MingLiu;
 }
 
 .navigationBar {
@@ -166,7 +169,7 @@ body {
 
 .viewContainer {
   background-color: white;
-  padding: 5px 5px;
+  padding-top: 5px;
 }
 
 .searchBar {

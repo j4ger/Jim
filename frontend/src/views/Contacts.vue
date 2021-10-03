@@ -10,7 +10,7 @@
     </div>
     <div class="contactSection">
       <div
-        class="contactContainer"
+        class="contactContainer ripple"
         v-for="(contact, index) in store.state.contacts"
         :key="index"
       >
@@ -32,15 +32,15 @@ const store = useStore();
 
 .contactSection {
   margin-top: 15px;
-  padding-left: 5px;
 }
 
 .contactContainer {
   display: flex;
   width: 100%;
   align-items: center;
-  margin-top: 10px;
-  height: 60px;
+  height: 70px;
+  padding: 10px 20px 10px 20px;
+  box-sizing: border-box;
 }
 
 .contactContent {

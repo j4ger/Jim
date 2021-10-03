@@ -10,7 +10,7 @@
     </div>
     <div class="conversationSection">
       <div
-        class="conversationContainer"
+        class="conversationContainer ripple"
         v-for="(conversation, index) in store.state.conversations"
         :key="index"
       >
@@ -57,15 +57,15 @@ const getContact = function (id: string): Contact | null {
 
 .conversationSection {
   margin-top: 15px;
-  padding-left: 5px;
 }
 
 .conversationContainer {
   display: flex;
   width: 100%;
   align-items: center;
-  margin-top: 10px;
-  height: 60px;
+  height: 70px;
+  padding: 10px 20px 10px 20px;
+  box-sizing: border-box;
 }
 
 .conversationContent {
@@ -95,7 +95,7 @@ const getContact = function (id: string): Contact | null {
 
 .messageTime {
   position: absolute;
-  right: 10px;
+  right: 15px;
   margin-top: -30px;
   color: $disabled-grey;
 }
