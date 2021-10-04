@@ -3,6 +3,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import ConversationsVue from "../views/Conversations.vue";
 import ContactsVue from "../views/Contacts.vue";
 import AboutVue from "../views/About.vue";
+import ConversationVue from "../views/Conversation.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -22,6 +23,12 @@ const routes: Array<RouteRecordRaw> = [
     component: AboutVue,
     name: "关于我",
     meta: { fixedTitle: true },
+  },
+  {
+    path: "/Conversation/:targetId",
+    component: ConversationVue,
+    name: "聊天",
+    props: true,
   },
   { path: "/:pathMatch(.*)*", redirect: "/Conversations" },
 ];

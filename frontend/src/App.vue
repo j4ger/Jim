@@ -7,11 +7,18 @@
   <div class="mainContent">
     <div class="topBar fixed bars">
       <div class="topBarContent">
-        <div class="topBarButton">
+        <div class="topBarButton" @click="topBarLeftButtonClicked">
           <img
             src="@sicons/fa/UserPlus.svg"
             alt="添加好友"
             class="topBarIcon"
+            v-if="showNavBar"
+          />
+          <img
+            src="@sicons/fa/AngleLeft.svg"
+            alt="返回"
+            class="topBarIcon"
+            v-else
           />
         </div>
       </div>
@@ -20,7 +27,10 @@
           route.meta.fixedTitle ? route.name : store.state.title
         }}</span>
       </div>
-      <div class="topBarContent">
+      <div
+        class="topBarContent"
+        :style="{ visibility: showNavBar ? 'visible' : 'hidden' }"
+      >
         <img src="@sicons/fa/Plus.svg" alt="添加" class="topBarIcon" />
       </div>
     </div>
@@ -70,7 +80,7 @@ body {
 .background {
   height: 100%;
   width: 100%;
-  position: absolute;
+  position: fixed;
   top: 0;
   z-index: 0;
 }
@@ -93,6 +103,7 @@ body {
 .mainContent {
   position: absolute;
   width: 100%;
+  height: 100%;
 }
 
 .bars {
@@ -108,6 +119,7 @@ body {
 }
 
 .topBar {
+  position: fixed;
   justify-content: space-between;
   height: $bar-height;
   top: 0;
@@ -170,20 +182,23 @@ span {
 .currentView {
   width: 100%;
   margin: $bar-height 0 0 0;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .viewContainer {
-  background-color: white;
-  padding-top: 5px;
+  background-color: $background-grey;
+  height: 100%;
 }
 
 .searchBar {
-  height: 30px;
-  margin-bottom: 10px;
+  height: 40px;
+  background-color: white;
+  padding: 5px 10px 5px 10px;
 }
 
 .searchBlock {
-  background-color: $background-grey;
+  background-color: $search-background-grey;
   width: 100%;
   margin: 0 auto;
   text-align: center;
@@ -214,11 +229,21 @@ import { computed } from "@vue/reactivity";
 import moment from "moment";
 moment.locale("zh-cn");
 
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 const route = useRoute();
+const router = useRouter();
 const showNavBar = computed(
   () => route.name == "对话" || route.name == "联系人" || route.name == "关于我"
 );
+
+const topBarLeftButtonClicked = () => {
+  if (showNavBar.value) {
+    console.log("Top bar left button is clicked");
+  } else {
+    store.commit(CHANGE_TRANSITION, "slide-in-right");
+    router.go(-1);
+  }
+};
 
 import { RouterLink } from "vue-router";
 import { useStore } from "./store";
@@ -228,7 +253,11 @@ import {
   MessageContent,
   MessageType,
 } from "./store/interfaces";
-import { ADD_CONTACT, ADD_MESSAGE } from "./store/mutationTypes";
+import {
+  ADD_CONTACT,
+  ADD_MESSAGE,
+  CHANGE_TRANSITION,
+} from "./store/mutationTypes";
 
 const store = useStore();
 
@@ -255,7 +284,37 @@ store.commit(ADD_MESSAGE, {
     ],
     timestamp: 1633183129760,
     from: "114514",
-    to: "1919810",
+    to: "114519",
+  } as Message,
+});
+
+store.commit(ADD_MESSAGE, {
+  target: "114514",
+  message: {
+    content: [
+      {
+        type: MessageType.text,
+        content: "你说得对，但是方向盘的意志很难被郁金香左侧的防空炮修复",
+      } as MessageContent,
+    ],
+    timestamp: 1633186149760,
+    from: "114519",
+    to: "114514",
+  } as Message,
+});
+
+store.commit(ADD_MESSAGE, {
+  target: "114514",
+  message: {
+    content: [
+      {
+        type: MessageType.text,
+        content: "是的，不过橡皮擦的确是六边形的等离子蓝莓",
+      } as MessageContent,
+    ],
+    timestamp: 1633183149760,
+    from: "114514",
+    to: "114519",
   } as Message,
 });
 
@@ -270,7 +329,7 @@ store.commit(ADD_MESSAGE, {
     ],
     timestamp: 1633183529760,
     from: "114515",
-    to: "1919810",
+    to: "114519",
   } as Message,
 });
 </script>

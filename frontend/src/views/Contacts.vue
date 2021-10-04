@@ -13,6 +13,7 @@
         class="contactContainer ripple"
         v-for="(contact, index) in store.state.contacts"
         :key="index"
+        @click="goToConversation(contact.id)"
       >
         <img class="avatarIcon" :src="contact.avatar" alt="头像" />
         <div class="contactContent">
@@ -36,6 +37,12 @@ onBeforeRouteLeave((to) => {
     store.commit(CHANGE_TRANSITION, "slide-in-left");
   }
 });
+
+import { useRouter } from "vue-router";
+const router = useRouter();
+const goToConversation = (id: string) => {
+  router.push({ name: "聊天", params: { targetId: id } });
+};
 </script>
 <style lang="stylus">
 @import '../styles/config.styl';

@@ -13,6 +13,7 @@
         class="conversationContainer ripple"
         v-for="(conversation, index) in store.state.conversations"
         :key="index"
+        @click="goToConversation(conversation[0])"
       >
         <img
           class="avatarIcon"
@@ -55,6 +56,12 @@ const getContact = function (id: string): Contact | null {
     if (element.id == id) result = element;
   });
   return result;
+};
+
+import { useRouter } from "vue-router";
+const router = useRouter();
+const goToConversation = (id: string) => {
+  router.push({ name: "聊天", params: { targetId: id } });
 };
 </script>
 
