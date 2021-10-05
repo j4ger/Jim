@@ -12,7 +12,7 @@
             src="@sicons/fa/UserPlus.svg"
             alt="添加好友"
             class="topBarIcon"
-            v-if="showNavBar"
+            v-if="store.state.showNavBar"
           />
           <img
             src="@sicons/fa/AngleLeft.svg"
@@ -29,19 +29,24 @@
       </div>
       <div
         class="topBarContent"
-        :style="{ visibility: showNavBar ? 'visible' : 'hidden' }"
+        :style="{ visibility: store.state.showNavBar ? 'visible' : 'hidden' }"
       >
         <img src="@sicons/fa/Plus.svg" alt="添加" class="topBarIcon" />
       </div>
     </div>
     <div class="currentView">
       <router-view v-slot="{ Component }">
-        <transition :name="store.state.transition" mode="out-in">
+        <transition
+          :name="store.state.transition"
+          mode="out-in"
+          @before-enter="store.commit(TRANSITION_START)"
+          @after-enter="store.commit(TRANSITION_END)"
+        >
           <component :is="Component" />
         </transition>
       </router-view>
     </div>
-    <div class="navigationBar fixed bars" v-show="showNavBar">
+    <div class="navigationBar fixed bars" v-show="store.state.showNavBar">
       <router-link tag="div" class="navigationButton" to="/Conversations">
         <img src="@sicons/fa/MailBulk.svg" alt="对话" class="navigationIcon" />
       </router-link>
@@ -158,7 +163,7 @@ span {
   height: $bar-height;
   bottom: 0;
   justify-content: space-evenly;
-  border-top: 1px solid $disabled-grey;
+  border-top: 1px solid $divider-grey;
   align-items: center;
 }
 
@@ -232,22 +237,19 @@ span {
 </style>
 
 <script setup lang="ts">
-import { computed } from "@vue/reactivity";
 import moment from "moment";
 moment.locale("zh-cn");
 
-import { useRoute, useRouter } from "vue-router";
-const route = useRoute();
+import { useRouter, useRoute } from "vue-router";
 const router = useRouter();
-const showNavBar = computed(
-  () => route.name == "对话" || route.name == "联系人" || route.name == "关于我"
-);
+const route = useRoute();
 
 const topBarLeftButtonClicked = () => {
-  if (showNavBar.value) {
+  if (store.state.showNavBar) {
     console.log("Top bar left button is clicked");
   } else {
     store.commit(CHANGE_TRANSITION, "slide-in-right");
+    store.commit(SHOW_NAV_BAR);
     router.go(-1);
   }
 };
@@ -264,6 +266,9 @@ import {
   ADD_CONTACT,
   ADD_MESSAGE,
   CHANGE_TRANSITION,
+  SHOW_NAV_BAR,
+  TRANSITION_END,
+  TRANSITION_START,
 } from "./store/mutationTypes";
 
 const store = useStore();

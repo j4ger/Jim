@@ -7,7 +7,10 @@
         :key="index"
       ></MessageContainer>
     </div>
-    <div class="messageInputBar bars">
+    <div
+      class="messageInputBar bars"
+      :class="{ shown: !store.state.showNavBar && !store.state.transitioning }"
+    >
       <input
         type="text"
         class="messageInput"
@@ -104,6 +107,12 @@ import MessageContainer from "../components/MessageContainer.vue";
   align-items: center;
   padding: 0 15px 0 15px;
   background-color: white;
+  transform: translateY(200%);
+  transition: transform 0.1s ease-in-out;
+}
+
+.messageInputBar.shown {
+  transform: translateY(0);
 }
 
 .messageInput {

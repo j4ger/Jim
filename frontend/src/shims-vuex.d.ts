@@ -10,6 +10,8 @@ declare module "@vue/runtime-core" {
     self: Contact;
     transition: string;
     title: string;
+    showNavBar: boolean;
+    transitioning: boolean;
   }
 
   interface ComponentCustomProperties {

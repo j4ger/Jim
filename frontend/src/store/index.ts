@@ -14,6 +14,10 @@ import {
   TOGGLE_PIN_CONVERSATION,
   REMOVE_CONTACT,
   REMOVE_CONVERSATION,
+  SHOW_NAV_BAR,
+  HIDE_NAV_BAR,
+  TRANSITION_START,
+  TRANSITION_END,
 } from "./mutationTypes";
 
 export interface State {
@@ -23,6 +27,8 @@ export interface State {
   self: Contact;
   transition: string;
   title: string;
+  showNavBar: boolean;
+  transitioning: boolean;
 }
 
 export const key: InjectionKey<Store<State>> = Symbol();
@@ -39,6 +45,8 @@ export const store = createStore<State>({
     } as Contact,
     transition: "slide-in-left",
     title: "",
+    showNavBar: true,
+    transitioning: false,
   },
   mutations: {
     [ADD_CONTACT](state: State, contact: Contact) {
@@ -77,6 +85,18 @@ export const store = createStore<State>({
         ({ pinned: false, removed: false } as ConversationOptions);
       newOptions.pinned = !newOptions.pinned;
       state.conversationOptions.set(target, newOptions);
+    },
+    [SHOW_NAV_BAR](state: State) {
+      state.showNavBar = true;
+    },
+    [HIDE_NAV_BAR](state: State) {
+      state.showNavBar = false;
+    },
+    [TRANSITION_START](state: State) {
+      state.transitioning = true;
+    },
+    [TRANSITION_END](state: State) {
+      state.transitioning = false;
     },
   },
   getters: {

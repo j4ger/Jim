@@ -25,9 +25,12 @@ import { useStore } from "@/store";
 const store = useStore();
 
 import { onBeforeRouteLeave } from "vue-router";
-import { CHANGE_TRANSITION } from "@/store/mutationTypes";
-onBeforeRouteLeave(() => {
+import { CHANGE_TRANSITION, HIDE_NAV_BAR } from "@/store/mutationTypes";
+onBeforeRouteLeave((to) => {
   store.commit(CHANGE_TRANSITION, "slide-in-left");
+  if (to.name == "聊天") {
+    store.commit(HIDE_NAV_BAR);
+  }
 });
 </script>
 
