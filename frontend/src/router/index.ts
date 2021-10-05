@@ -1,32 +1,32 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
-import ConversationsVue from "../views/Conversations.vue";
-import ContactsVue from "../views/Contacts.vue";
-import AboutVue from "../views/About.vue";
-import ConversationVue from "../views/Conversation.vue";
+import Conversations from "../views/Conversations.vue";
+import Contacts from "../views/Contacts.vue";
+import About from "../views/About.vue";
+import Conversation from "../views/Conversation.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/Conversations",
-    component: ConversationsVue,
+    component: Conversations,
     name: "对话",
     meta: { fixedTitle: true },
   },
   {
     path: "/Contacts",
-    component: ContactsVue,
+    component: Contacts,
     name: "联系人",
     meta: { fixedTitle: true },
   },
   {
     path: "/About",
-    component: AboutVue,
+    component: About,
     name: "关于我",
     meta: { fixedTitle: true },
   },
   {
     path: "/Conversation/:targetId",
-    component: ConversationVue,
+    component: Conversation,
     name: "聊天",
     props: true,
   },

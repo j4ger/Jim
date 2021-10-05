@@ -1,57 +1,11 @@
 <template>
   <div class="viewContainer">
     <div class="messageSection">
-      <div
-        class="messageContainer"
+      <MessageContainer
         v-for="(message, index) in store.state.conversations.get(targetId)"
+        :message="message"
         :key="index"
-      >
-        <div class="chatMessageTime">
-          <span>{{ moment(message.timestamp).fromNow() }}</span>
-        </div>
-        <div
-          class="messageBody"
-          v-bind:class="{
-            receivedMessage: message.to == store.state.self.id,
-            sentMessage: message.to != store.state.self.id,
-          }"
-        >
-          <img
-            class="chatAvatarIcon"
-            :src="
-              message.to == store.state.self.id
-                ? getContact(message.from)?.avatar
-                : store.state.self.avatar
-            "
-            alt="头像"
-          />
-          <div class="messageContentSection">
-            <div
-              class="messageContent"
-              v-for="(messageContent, innerIndex) in message.content"
-              :key="innerIndex"
-              v-bind:class="{
-                receivedMessage: message.to == store.state.self.id,
-                sentMessage: message.to != store.state.self.id,
-              }"
-            >
-              <div class="imageContent" v-if="messageContent.type == 1">
-                {{ messageContent.content }}
-              </div>
-              <div class="textContent" v-if="messageContent.type == 0">
-                <span
-                  class="messageText"
-                  v-bind:class="{
-                    receivedMessage: message.to == store.state.self.id,
-                    sentMessage: message.to != store.state.self.id,
-                  }"
-                  >{{ messageContent.content }}</span
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      ></MessageContainer>
     </div>
     <div class="messageInputBar bars">
       <input
@@ -68,8 +22,6 @@
 </template>
 
 <script setup lang="ts">
-import moment from "moment";
-
 import { defineProps, ref } from "vue";
 const props = defineProps({
   targetId: String,
@@ -101,94 +53,53 @@ store.commit(CHANGE_TITLE, getContact(targetId)?.nickname ?? DEFAULT_NICKNAME);
 
 const messageInput = ref("");
 
-const send = () => {
-  const newMessage = {
-    target: targetId,
-    message: {
-      content: [
-        {
-          type: MessageType.text,
-          content: messageInput.value,
-        } as MessageContent,
-      ],
-      timestamp: Date.now(),
-      from: store.state.self.id,
-      to: targetId,
-    } as Message,
-  } as NewMessage;
-  store.commit(ADD_MESSAGE, newMessage);
-  messageInput.value = "";
+const scrollToLastMessage = () => {
+  const messageElements = document.getElementsByClassName("messageContainer");
+  messageElements[messageElements.length - 1].scrollIntoView({
+    behavior: "smooth",
+    block: "end",
+  });
 };
+
+const send = () => {
+  if (messageInput.value != "") {
+    const newMessage = {
+      target: targetId,
+      message: {
+        content: [
+          {
+            type: MessageType.text,
+            content: messageInput.value,
+          } as MessageContent,
+        ],
+        timestamp: Date.now(),
+        from: store.state.self.id,
+        to: targetId,
+      } as Message,
+    } as NewMessage;
+    store.commit(ADD_MESSAGE, newMessage);
+    messageInput.value = "";
+    setTimeout(scrollToLastMessage, 50);
+  }
+};
+
+import MessageContainer from "../components/MessageContainer.vue";
 </script>
 
 <style lang="stylus">
 @import '../styles/config.styl';
 
 .messageSection {
-  padding: 10px 0 55px 0;
-}
-
-.messageContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 15px 0 15px;
-  min-height: 80px;
-}
-
-.messageBody {
-  margin-top: 5px;
-}
-
-.chatMessageTime {
-  color: $dark-grey;
-  font-size: 14px;
-}
-
-.messageBody {
-  display: flex;
-  width: 100%;
-}
-
-.messageBody.sentMessage {
-  flex-direction: row-reverse;
-}
-
-.chatAvatarIcon {
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  margin-top: 5px;
-}
-
-.messageContentSection {
-  display: flex;
-  margin: 0 10px 0 10px;
-}
-
-.messageContent.sentMessage {
-  background-color: $blue-in-general;
-}
-
-.messageContent.receivedMessage {
-  background-color: $press-down-grey;
-}
-
-.messageContent {
-  // border: 1px solid $disabled-grey;
-  border-radius: 25px;
-  padding: 15px;
-  margin-bottom: 15px;
-}
-
-.messageText.sentMessage {
-  color: white;
+  padding: 10px 0 0 0;
+  height: 100%;
+  box-sizing: border-box;
+  overflow-y: scroll;
 }
 
 .messageInputBar {
   position: fixed;
   bottom: 0;
-  height: 55px;
+  height: $bar-height;
   justify-content: space-between;
   align-items: center;
   padding: 0 15px 0 15px;

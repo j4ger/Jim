@@ -11,6 +11,11 @@ export interface Message {
   to: string;
 }
 
+export interface ConversationOptions {
+  pinned: boolean;
+  removed: boolean;
+}
+
 export interface MessageContent {
   type: MessageType;
   content: string;

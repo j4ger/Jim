@@ -6,6 +6,7 @@ declare module "@vue/runtime-core" {
   interface State {
     conversations: Conversation[];
     contacts: Contact[];
+    conversationOptions: Map<string, boolean>;
     self: Contact;
     transition: string;
     title: string;

@@ -181,9 +181,10 @@ span {
 
 .currentView {
   width: 100%;
-  margin: $bar-height 0 0 0;
-  height: 100%;
   box-sizing: border-box;
+  position: fixed;
+  top: $bar-height;
+  bottom: $bar-height;
 }
 
 .viewContainer {
@@ -216,6 +217,12 @@ span {
   width: 12px;
   margin-right: 4px;
   filter: invert(68%) sepia(0%) saturate(102%) hue-rotate(284deg) brightness(95%) contrast(82%);
+}
+
+.avatarIcon {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
 }
 
 .searchText {
