@@ -62,7 +62,7 @@ const props = defineProps<Props>();
 
 const store = useStore();
 
-const getContact = function (id: string): Contact | null {
+const getContact = function (id: number): Contact | null {
   let result = null;
   store.state.contacts.forEach((element) => {
     if (element.id == id) result = element;

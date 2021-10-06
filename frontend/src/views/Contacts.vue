@@ -43,7 +43,7 @@ onBeforeRouteLeave((to) => {
 
 import { useRouter } from "vue-router";
 const router = useRouter();
-const goToConversation = (id: string) => {
+const goToConversation = (id: number) => {
   router.push({ name: "聊天", params: { targetId: id } });
 };
 </script>

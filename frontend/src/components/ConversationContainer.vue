@@ -81,7 +81,7 @@ import {
 } from "../store/interfaces";
 import { defineProps, ref, computed } from "vue";
 interface Props {
-  conversation: [string, Message[]];
+  conversation: [number, Message[]];
 }
 const props = defineProps<Props>();
 
@@ -95,13 +95,13 @@ import {
   READ_MESSAGE,
 } from "@/store/mutationTypes";
 const router = useRouter();
-const goToConversation = (id: string) => {
+const goToConversation = (id: number) => {
   store.commit(READ_MESSAGE, id);
   router.push({ name: "聊天", params: { targetId: id } });
 };
 
 const store = useStore();
-const getContact = function (id: string): Contact | null {
+const getContact = function (id: number): Contact | null {
   let result = null;
   store.state.contacts.forEach((element) => {
     if (element.id == id) result = element;

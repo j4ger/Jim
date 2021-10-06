@@ -29,10 +29,10 @@
 <script setup lang="ts">
 import { defineProps, ref } from "vue";
 const props = defineProps({
-  targetId: String,
+  targetId: Number,
 });
 
-const targetId = props.targetId ?? "0";
+const targetId = props.targetId ?? 0;
 
 import { useStore } from "@/store";
 import {
@@ -46,7 +46,7 @@ import {
 import { ADD_MESSAGE, CHANGE_TITLE } from "@/store/mutationTypes";
 const store = useStore();
 
-const getContact = function (id: string): Contact | null {
+const getContact = function (id: number): Contact | null {
   let result = null;
   store.state.contacts.forEach((element) => {
     if (element.id == id) result = element;

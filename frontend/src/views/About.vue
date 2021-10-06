@@ -65,6 +65,7 @@ onBeforeRouteLeave((to) => {
 }
 
 .selfAvatar {
+  background-color: white;
   size: 40px;
   border-radius: 50%;
   border: 1px solid $disabled-grey;
