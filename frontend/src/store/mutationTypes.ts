@@ -9,3 +9,4 @@ export const SHOW_NAV_BAR = "SHOW_NAV_BAR";
 export const HIDE_NAV_BAR = "HIDE_NAV_BAR";
 export const TRANSITION_START = "TRANSITION_START";
 export const TRANSITION_END = "TRANSITION_END";
+export const READ_MESSAGE = "READ_MESSAGE";

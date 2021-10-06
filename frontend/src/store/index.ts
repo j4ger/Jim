@@ -18,6 +18,7 @@ import {
   HIDE_NAV_BAR,
   TRANSITION_START,
   TRANSITION_END,
+  READ_MESSAGE,
 } from "./mutationTypes";
 
 export interface State {
@@ -48,10 +49,12 @@ export const store = createStore<State>({
     showNavBar: true,
     transitioning: false,
   },
+
   mutations: {
     [ADD_CONTACT](state: State, contact: Contact) {
       state.contacts.push(contact);
     },
+
     [REMOVE_CONTACT](state: State, contact: Contact) {
       for (let i = 0; i < state.contacts.length; i++) {
         if (state.contacts[i] == contact) {
@@ -60,43 +63,65 @@ export const store = createStore<State>({
         }
       }
     },
+
     [ADD_MESSAGE](state: State, newMessage: NewMessage) {
       const currentConversation =
         state.conversations.get(newMessage.target) || [];
       currentConversation.push(newMessage.message);
       state.conversations.set(newMessage.target, currentConversation);
+      const newOptions =
+        state.conversationOptions.get(newMessage.target) ??
+        ({ pinned: false, removed: false, unread: 0 } as ConversationOptions);
+      newOptions.unread++;
+      state.conversationOptions.set(newMessage.target, newOptions);
     },
+
     [CHANGE_TRANSITION](state: State, transition: string) {
       state.transition = transition;
     },
+
     [CHANGE_TITLE](state: State, title: string) {
       state.title = title;
     },
+
     [REMOVE_CONVERSATION](state: State, target: string) {
       const newOptions =
         state.conversationOptions.get(target) ??
-        ({ pinned: false, removed: true } as ConversationOptions);
+        ({ pinned: false, removed: true, unread: 0 } as ConversationOptions);
       newOptions.removed = true;
       state.conversationOptions.set(target, newOptions);
     },
+
     [TOGGLE_PIN_CONVERSATION](state: State, target: string) {
       const newOptions =
         state.conversationOptions.get(target) ??
-        ({ pinned: false, removed: false } as ConversationOptions);
+        ({ pinned: false, removed: false, unread: 0 } as ConversationOptions);
       newOptions.pinned = !newOptions.pinned;
       state.conversationOptions.set(target, newOptions);
     },
+
     [SHOW_NAV_BAR](state: State) {
       state.showNavBar = true;
     },
+
     [HIDE_NAV_BAR](state: State) {
       state.showNavBar = false;
     },
+
     [TRANSITION_START](state: State) {
       state.transitioning = true;
     },
+
     [TRANSITION_END](state: State) {
       state.transitioning = false;
+    },
+
+    [READ_MESSAGE](state: State, target: string) {
+      const newOptions =
+        state.conversationOptions.get(target) ??
+        ({ pinned: false, removed: false, unread: 0 } as ConversationOptions);
+      newOptions.unread = 0;
+      state.conversationOptions.set(target, newOptions);
     },
   },
   getters: {

@@ -1,5 +1,5 @@
 export interface Contact {
-  id: string;
+  id: number;
   nickname: string;
   avatar: string;
 }
@@ -7,13 +7,14 @@ export interface Contact {
 export interface Message {
   content: MessageContent[];
   timestamp: number;
-  from: string;
-  to: string;
+  from: number;
+  to: number;
 }
 
 export interface ConversationOptions {
   pinned: boolean;
   removed: boolean;
+  unread: number;
 }
 
 export interface MessageContent {

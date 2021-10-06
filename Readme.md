@@ -131,3 +131,12 @@
 5. 消息列表按照时间排序；
 6. 初始化后端框架；
 7. 修复一些动画；
+
+### 第六天
+
+1. 增加新未读消息badge；
+2. 修改主页布局；
+3. 增加发送消息动画；
+4. 试图用rust+warp写后端，发现websocket不太好办；
+5. 试图换到deno，发现SQL ORM库基本都用不了（试了denoDB,cotton,small-orm-sqlite），于是只用sqlite库手写sql，搭配abc库做了简单的后端；
+6. sqlite数据库建库；

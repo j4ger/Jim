@@ -36,9 +36,14 @@
             moment(props.conversation[1][0].timestamp).fromNow()
           }}</span>
         </div>
-        <span class="messageDigest">{{
-          props.conversation[1][0].content[0].content
-        }}</span>
+        <div class="conversationContentSecondLine">
+          <span class="messageDigest">{{
+            props.conversation[1][0].content[0].content
+          }}</span>
+          <div class="unreadMessageContainer" v-show="unread">
+            <span class="unreadMessage">{{ unread }}</span>
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -74,7 +79,7 @@ import {
   DEFAULT_NICKNAME,
   Message,
 } from "../store/interfaces";
-import { defineProps, ref } from "vue";
+import { defineProps, ref, computed } from "vue";
 interface Props {
   conversation: [string, Message[]];
 }
@@ -87,9 +92,11 @@ import { useRouter } from "vue-router";
 import {
   TOGGLE_PIN_CONVERSATION,
   REMOVE_CONVERSATION,
+  READ_MESSAGE,
 } from "@/store/mutationTypes";
 const router = useRouter();
 const goToConversation = (id: string) => {
+  store.commit(READ_MESSAGE, id);
   router.push({ name: "聊天", params: { targetId: id } });
 };
 
@@ -137,6 +144,13 @@ const pinConversation = () => {
   store.commit(TOGGLE_PIN_CONVERSATION, props.conversation[0]);
   swiped.value = false;
 };
+
+const unread = computed(
+  () =>
+    store.state.conversationOptions.get(
+      getContact(props.conversation[0])?.id ?? ""
+    )?.unread ?? 0
+);
 </script>
 
 <style lang="stylus">
@@ -223,5 +237,25 @@ const pinConversation = () => {
   height: 30px;
   width: 30px;
   filter: invert();
+}
+
+.conversationContentSecondLine {
+  display: flex;
+}
+
+.unreadMessageContainer {
+  width: 35px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: red;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.unreadMessage {
+  color: white;
+  font-size: 13px;
 }
 </style>

@@ -162,7 +162,7 @@ span {
   padding: 0 10%;
   height: $bar-height;
   bottom: 0;
-  justify-content: space-evenly;
+  justify-content: space-between;
   border-top: 1px solid $divider-grey;
   align-items: center;
 }
@@ -288,6 +288,7 @@ store.commit(ADD_CONTACT, {
 store.commit(ADD_MESSAGE, {
   target: "114514",
   message: {
+    id: 1,
     content: [
       {
         type: MessageType.text,
@@ -303,6 +304,7 @@ store.commit(ADD_MESSAGE, {
 store.commit(ADD_MESSAGE, {
   target: "114514",
   message: {
+    id: 2,
     content: [
       {
         type: MessageType.text,
