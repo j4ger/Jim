@@ -32,7 +32,7 @@ const props = defineProps({
   targetId: Number,
 });
 
-const targetId = props.targetId ?? 0;
+const targetId: number = Number.parseInt(props.targetId?.toString() ?? "0");
 
 import { useStore } from "@/store";
 import {
