@@ -1,11 +1,13 @@
 <template>
   <div class="viewContainer">
     <div class="messageSection">
-      <MessageContainer
-        v-for="(message, index) in store.state.conversations.get(targetId)"
-        :message="message"
-        :key="index"
-      ></MessageContainer>
+      <transition-group name="message-list" tag="div">
+        <MessageContainer
+          v-for="(message, index) in store.state.conversations.get(targetId)"
+          :message="message"
+          :key="index"
+        ></MessageContainer>
+      </transition-group>
     </div>
     <div
       class="messageInputBar bars"
@@ -139,5 +141,14 @@ import MessageContainer from "../components/MessageContainer.vue";
   width: 20px;
   height: 20px;
   filter: invert();
+}
+
+.message-list-enter-active {
+  transition: opacity 0.2s linear, transform 0.1s ease-in-out;
+}
+
+.message-list-enter-from {
+  opacity: 0;
+  transform: translateY(25%);
 }
 </style>

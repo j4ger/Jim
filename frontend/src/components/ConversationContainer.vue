@@ -148,7 +148,7 @@ const pinConversation = () => {
   align-items: center;
   height: 70px;
   overflow: visible;
-  transition: transform 0.2s ease-in-out;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .conversationContainer.swiped {
