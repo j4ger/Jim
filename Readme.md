@@ -63,6 +63,36 @@
      - 删除（从消息列表中？还是只是隐藏？~~完全仿制的话就是隐藏~~ ）
 6. 自动换行（？）
 
+### 后端交互（基础）
+
+1. 用户模型
+   - id
+   - nickname
+   - avatar
+   - contacts
+
+2. 消息模型
+   - from
+   - to
+   - content
+     - raw json
+   - timestamp
+
+3. 基础路由
+   - 用户列表
+   - 获取联系人
+   - 获取所有消息
+
+4. ws入口
+   - tx加入shared state
+   - rx.recv消息，加入数据库，推送至对应tx
+   - 断开时移除tx
+
+5. 前端增添逻辑
+   - 启动时获取联系人，获取消息，建立ws连接，加入store
+   - SEND_MESSAGE action
+   - ws.onMessage commit ADD_MESSAGE
+
 ## 日志
 
 ### 第一天
