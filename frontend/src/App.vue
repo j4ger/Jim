@@ -274,21 +274,22 @@ import {
 const store = useStore();
 
 store.commit(ADD_CONTACT, {
-  id: "114514",
-  nickname: "senpai",
-  avatar: "https://www.gravatar.com/avatar",
+  id: 2,
+  nickname: "哦吼",
+  avatar:
+    "https://www.gravatar.com/avatar/675f3d29d0164142ad3019a18d861139?d=robohash",
 } as Contact);
 
 store.commit(ADD_CONTACT, {
-  id: "114515",
-  nickname: "senpai2",
-  avatar: "https://www.gravatar.com/avatar",
+  id: 3,
+  nickname: "欸嘿",
+  avatar:
+    "https://www.gravatar.com/avatar/94f831c0ff5f455fa9987d4593e6bf2d?d=robohash",
 } as Contact);
 
 store.commit(ADD_MESSAGE, {
-  target: "114514",
+  target: 2,
   message: {
-    id: 1,
     content: [
       {
         type: MessageType.text,
@@ -296,15 +297,14 @@ store.commit(ADD_MESSAGE, {
       } as MessageContent,
     ],
     timestamp: 1633183129760,
-    from: "114514",
-    to: "114519",
+    from: 2,
+    to: 1,
   } as Message,
 });
 
 store.commit(ADD_MESSAGE, {
-  target: "114514",
+  target: 3,
   message: {
-    id: 2,
     content: [
       {
         type: MessageType.text,
@@ -312,13 +312,13 @@ store.commit(ADD_MESSAGE, {
       } as MessageContent,
     ],
     timestamp: 1633186149760,
-    from: "114519",
-    to: "114514",
+    from: 3,
+    to: 1,
   } as Message,
 });
 
 store.commit(ADD_MESSAGE, {
-  target: "114514",
+  target: 3,
   message: {
     content: [
       {
@@ -327,13 +327,13 @@ store.commit(ADD_MESSAGE, {
       } as MessageContent,
     ],
     timestamp: 1633183149760,
-    from: "114514",
-    to: "114519",
+    from: 1,
+    to: 3,
   } as Message,
 });
 
 store.commit(ADD_MESSAGE, {
-  target: "114515",
+  target: 3,
   message: {
     content: [
       {
@@ -342,8 +342,8 @@ store.commit(ADD_MESSAGE, {
       } as MessageContent,
     ],
     timestamp: 1633183529760,
-    from: "114515",
-    to: "114519",
+    from: 3,
+    to: 1,
   } as Message,
 });
 </script>

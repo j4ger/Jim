@@ -28,7 +28,7 @@ export enum MessageType {
 }
 
 export interface NewMessage {
-  target: string;
+  target: number;
   message: Message;
 }
 

@@ -1,12 +1,12 @@
 import { ComponentCustomProperties } from "vue";
 import { Store } from "vuex";
-import { Conversation, Contact } from "./store/interfaces";
+import { Contact } from "./store/interfaces";
 
 declare module "@vue/runtime-core" {
   interface State {
-    conversations: Conversation[];
+    conversations: Map<number, Message[]>;
     contacts: Contact[];
-    conversationOptions: Map<string, boolean>;
+    conversationOptions: Map<number, boolean>;
     self: Contact;
     transition: string;
     title: string;

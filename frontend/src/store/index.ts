@@ -22,9 +22,9 @@ import {
 } from "./mutationTypes";
 
 export interface State {
-  conversations: Map<string, Message[]>;
+  conversations: Map<number, Message[]>;
   contacts: Contact[];
-  conversationOptions: Map<string, ConversationOptions>;
+  conversationOptions: Map<number, ConversationOptions>;
   self: Contact;
   transition: string;
   title: string;
@@ -40,9 +40,10 @@ export const store = createStore<State>({
     contacts: [],
     conversationOptions: new Map(),
     self: {
-      id: "114519",
-      avatar: "https://www.gravatar.com/avatar",
-      nickname: "senpai3",
+      id: 1,
+      avatar:
+        "https://www.gravatar.com/avatar/f676059596cd424c96cc85d8fa0f1e9a?d=robohash",
+      nickname: "啊哈",
     } as Contact,
     transition: "slide-in-left",
     title: "",
@@ -84,7 +85,7 @@ export const store = createStore<State>({
       state.title = title;
     },
 
-    [REMOVE_CONVERSATION](state: State, target: string) {
+    [REMOVE_CONVERSATION](state: State, target: number) {
       const newOptions =
         state.conversationOptions.get(target) ??
         ({ pinned: false, removed: true, unread: 0 } as ConversationOptions);
@@ -92,7 +93,7 @@ export const store = createStore<State>({
       state.conversationOptions.set(target, newOptions);
     },
 
-    [TOGGLE_PIN_CONVERSATION](state: State, target: string) {
+    [TOGGLE_PIN_CONVERSATION](state: State, target: number) {
       const newOptions =
         state.conversationOptions.get(target) ??
         ({ pinned: false, removed: false, unread: 0 } as ConversationOptions);
@@ -116,7 +117,7 @@ export const store = createStore<State>({
       state.transitioning = false;
     },
 
-    [READ_MESSAGE](state: State, target: string) {
+    [READ_MESSAGE](state: State, target: number) {
       const newOptions =
         state.conversationOptions.get(target) ??
         ({ pinned: false, removed: false, unread: 0 } as ConversationOptions);
@@ -126,8 +127,8 @@ export const store = createStore<State>({
   },
   getters: {
     sortedConversations(state: State) {
-      const pinnedConversations: [string, Message[]][] = [];
-      const unpinnedConversations: [string, Message[]][] = [];
+      const pinnedConversations: [number, Message[]][] = [];
+      const unpinnedConversations: [number, Message[]][] = [];
       state.conversations.forEach((value, key) => {
         if (state.conversationOptions.get(key)?.pinned) {
           pinnedConversations.push([key, value]);
