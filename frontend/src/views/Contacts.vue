@@ -10,14 +10,23 @@
     </div>
     <div class="contactSection">
       <div
-        class="contactContainer ripple"
-        v-for="(contact, index) in store.state.contacts"
-        :key="index"
-        @click="goToConversation(contact.id)"
+        class="contactGroup"
+        v-for="group in store.getters.groupedContacts"
+        :key="group[0]"
       >
-        <img class="avatarIcon" :src="contact.avatar" alt="头像" />
-        <div class="contactContent">
-          <span class="contactName">{{ contact.nickname }}</span>
+        <div class="initialBlock">
+          <span class="initial"> {{ group[0].toUpperCase() }}</span>
+        </div>
+        <div
+          class="contactContainer ripple"
+          v-for="(contact, index) in group[1]"
+          :key="index"
+          @click="goToConversation(contact.id)"
+        >
+          <img class="avatarIcon" :src="contact.avatar" alt="头像" />
+          <div class="contactContent">
+            <span class="contactName">{{ contact.nickname }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -74,5 +83,17 @@ const goToConversation = (id: number) => {
   font-size: 20px;
   font-variant: bold;
   font-weight: 700;
+}
+
+.initialBlock {
+  width: 100%;
+  padding: 10px 30px;
+  box-sizing: border-box;
+  border-top: 1px solid $press-down-grey;
+  border-bottom: 1px solid $press-down-grey;
+}
+
+.initial {
+  font-weight: bold;
 }
 </style>
