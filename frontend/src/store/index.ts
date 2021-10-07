@@ -34,6 +34,7 @@ import {
   CHANGE_ID,
   SEND_MESSAGE,
 } from "./mutationTypes";
+import { pinyin } from "pinyin-pro";
 
 export interface State {
   conversations: Map<number, Message[]>;
@@ -180,6 +181,19 @@ export const store = createStore<State>({
           elementB[1][elementB[1].length - 1].timestamp
       );
       return new Map([...pinnedConversations, ...unpinnedConversations]);
+    },
+    groupedContacts(state: State) {
+      const results: Map<string, Contact[]> = new Map();
+      state.contacts.forEach((contact) => {
+        const initial = pinyin(contact.nickname[0], {
+          toneType: "none",
+          pattern: "first",
+        });
+        const currentGroup = results.get(initial) ?? [];
+        currentGroup.push(contact);
+        results.set(initial, currentGroup);
+      });
+      return results;
     },
   },
   actions: {
