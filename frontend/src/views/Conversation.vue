@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref } from "vue";
+import { defineProps, onMounted, ref } from "vue";
 const props = defineProps({
   targetId: Number,
 });
@@ -89,6 +89,8 @@ const send = () => {
 };
 
 import MessageContainer from "../components/MessageContainer.vue";
+
+onMounted(() => scrollToLastMessage());
 </script>
 
 <style lang="stylus">

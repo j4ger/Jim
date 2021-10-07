@@ -250,6 +250,7 @@ const topBarLeftButtonClicked = () => {
   } else {
     store.commit(CHANGE_TRANSITION, "slide-in-right");
     store.commit(SHOW_NAV_BAR);
+    store.commit(READ_MESSAGE, Number.parseInt(route.params.targetId[0]));
     router.go(-1);
   }
 };
@@ -267,6 +268,7 @@ import {
   ADD_MESSAGE,
   CHANGE_TRANSITION,
   INIT,
+  READ_MESSAGE,
   SHOW_NAV_BAR,
   TRANSITION_END,
   TRANSITION_START,

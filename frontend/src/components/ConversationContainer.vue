@@ -37,9 +37,7 @@
           }}</span>
         </div>
         <div class="conversationContentSecondLine">
-          <span class="messageDigest">{{
-            props.conversation[1][0].content[0].content
-          }}</span>
+          <span class="messageDigest">{{ messageDigest }}</span>
           <div class="unreadMessageContainer" v-show="unread">
             <span class="unreadMessage">{{ unread }}</span>
           </div>
@@ -108,6 +106,13 @@ const getContact = function (id: number): Contact | null {
   });
   return result;
 };
+
+const messageDigest = computed(
+  () =>
+    props.conversation[1].slice().sort((message) => message.timestamp)[
+      props.conversation[1].length - 1
+    ].content[0].content
+);
 
 const swiped = ref(false);
 
