@@ -4,6 +4,7 @@ import Conversations from "../views/Conversations.vue";
 import Contacts from "../views/Contacts.vue";
 import About from "../views/About.vue";
 import Conversation from "../views/Conversation.vue";
+import SetId from "../views/SetId.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -30,6 +31,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "聊天",
     props: true,
   },
+  { path: "/Set/:id", component: SetId, name: "Set Id", props: true },
   { path: "/:pathMatch(.*)*", redirect: "/Conversations" },
 ];
 

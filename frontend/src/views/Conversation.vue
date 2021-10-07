@@ -43,7 +43,7 @@ import {
   MessageType,
   NewMessage,
 } from "@/store/interfaces";
-import { ADD_MESSAGE, CHANGE_TITLE } from "@/store/mutationTypes";
+import { CHANGE_TITLE, SEND_MESSAGE } from "@/store/mutationTypes";
 const store = useStore();
 
 const getContact = function (id: number): Contact | null {
@@ -82,7 +82,7 @@ const send = () => {
         to: targetId,
       } as Message,
     } as NewMessage;
-    store.commit(ADD_MESSAGE, newMessage);
+    store.dispatch(SEND_MESSAGE, newMessage);
     messageInput.value = "";
     setTimeout(scrollToLastMessage, 50);
   }

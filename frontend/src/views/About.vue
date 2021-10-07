@@ -57,6 +57,7 @@ onBeforeRouteLeave((to) => {
   font-size: 45px;
   color: white;
   font-weight: bold;
+  -webkit-text-stroke: 0.5px $press-down-grey;
 }
 
 .selfId {

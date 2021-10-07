@@ -266,6 +266,7 @@ import {
   ADD_CONTACT,
   ADD_MESSAGE,
   CHANGE_TRANSITION,
+  INIT,
   SHOW_NAV_BAR,
   TRANSITION_END,
   TRANSITION_START,
@@ -273,77 +274,79 @@ import {
 
 const store = useStore();
 
-store.commit(ADD_CONTACT, {
-  id: 2,
-  nickname: "哦吼",
-  avatar:
-    "https://www.gravatar.com/avatar/675f3d29d0164142ad3019a18d861139?d=robohash",
-} as Contact);
+store.dispatch(INIT);
 
-store.commit(ADD_CONTACT, {
-  id: 3,
-  nickname: "欸嘿",
-  avatar:
-    "https://www.gravatar.com/avatar/94f831c0ff5f455fa9987d4593e6bf2d?d=robohash",
-} as Contact);
+// store.commit(ADD_CONTACT, {
+//   id: 2,
+//   nickname: "哦吼",
+//   avatar:
+//     "https://www.gravatar.com/avatar/675f3d29d0164142ad3019a18d861139?d=robohash",
+// } as Contact);
 
-store.commit(ADD_MESSAGE, {
-  target: 2,
-  message: {
-    content: [
-      {
-        type: MessageType.text,
-        content: "Hello there lorem ipsum some random jibberish",
-      } as MessageContent,
-    ],
-    timestamp: 1633183129760,
-    from: 2,
-    to: 1,
-  } as Message,
-});
+// store.commit(ADD_CONTACT, {
+//   id: 3,
+//   nickname: "欸嘿",
+//   avatar:
+//     "https://www.gravatar.com/avatar/94f831c0ff5f455fa9987d4593e6bf2d?d=robohash",
+// } as Contact);
 
-store.commit(ADD_MESSAGE, {
-  target: 3,
-  message: {
-    content: [
-      {
-        type: MessageType.text,
-        content: "你说得对，但是方向盘的意志很难被郁金香左侧的防空炮修复",
-      } as MessageContent,
-    ],
-    timestamp: 1633186149760,
-    from: 3,
-    to: 1,
-  } as Message,
-});
+// store.commit(ADD_MESSAGE, {
+//   target: 2,
+//   message: {
+//     content: [
+//       {
+//         type: MessageType.text,
+//         content: "Hello there lorem ipsum some random jibberish",
+//       } as MessageContent,
+//     ],
+//     timestamp: 1633183129760,
+//     from: 2,
+//     to: 1,
+//   } as Message,
+// });
 
-store.commit(ADD_MESSAGE, {
-  target: 3,
-  message: {
-    content: [
-      {
-        type: MessageType.text,
-        content: "是的，不过橡皮擦的确是六边形的等离子蓝莓",
-      } as MessageContent,
-    ],
-    timestamp: 1633183149760,
-    from: 1,
-    to: 3,
-  } as Message,
-});
+// store.commit(ADD_MESSAGE, {
+//   target: 3,
+//   message: {
+//     content: [
+//       {
+//         type: MessageType.text,
+//         content: "你说得对，但是方向盘的意志很难被郁金香左侧的防空炮修复",
+//       } as MessageContent,
+//     ],
+//     timestamp: 1633186149760,
+//     from: 3,
+//     to: 1,
+//   } as Message,
+// });
 
-store.commit(ADD_MESSAGE, {
-  target: 3,
-  message: {
-    content: [
-      {
-        type: MessageType.text,
-        content: "Hello there lorem ipsum some random jibberish",
-      } as MessageContent,
-    ],
-    timestamp: 1633183529760,
-    from: 3,
-    to: 1,
-  } as Message,
-});
+// store.commit(ADD_MESSAGE, {
+//   target: 3,
+//   message: {
+//     content: [
+//       {
+//         type: MessageType.text,
+//         content: "是的，不过橡皮擦的确是六边形的等离子蓝莓",
+//       } as MessageContent,
+//     ],
+//     timestamp: 1633183149760,
+//     from: 1,
+//     to: 3,
+//   } as Message,
+// });
+
+// store.commit(ADD_MESSAGE, {
+//   target: 3,
+//   message: {
+//     content: [
+//       {
+//         type: MessageType.text,
+//         content: "Hello there lorem ipsum some random jibberish",
+//       } as MessageContent,
+//     ],
+//     timestamp: 1633183529760,
+//     from: 3,
+//     to: 1,
+//   } as Message,
+// });
 </script>

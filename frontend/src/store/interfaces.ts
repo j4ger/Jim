@@ -34,3 +34,25 @@ export interface NewMessage {
 
 export const DEFAULT_AVATAR = "https://www.gravatar.com/avatar";
 export const DEFAULT_NICKNAME = "神秘人";
+
+export class WSMessage {
+  type!: WSMessageType;
+  message!: WSInnerMessage;
+
+  constructor(type: WSMessageType, message: WSInnerMessage) {
+    this.type = type;
+    this.message = message;
+  }
+}
+
+export interface WSInnerMessage {
+  content: string;
+  timestamp: number;
+  from: number;
+  to: number;
+}
+
+export enum WSMessageType {
+  SEND_MESSAGE = 0,
+  RECEIVE_MESSAGE = 1,
+}

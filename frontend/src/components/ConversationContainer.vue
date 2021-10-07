@@ -148,7 +148,7 @@ const pinConversation = () => {
 const unread = computed(
   () =>
     store.state.conversationOptions.get(
-      getContact(props.conversation[0])?.id ?? ""
+      getContact(props.conversation[0])?.id ?? 0
     )?.unread ?? 0
 );
 </script>
@@ -194,6 +194,7 @@ const unread = computed(
   flex-direction: column;
   margin-left: 10px;
   max-width: 80%;
+  flex: 1;
 }
 
 .conversationContactName {
@@ -241,10 +242,11 @@ const unread = computed(
 
 .conversationContentSecondLine {
   display: flex;
+  justify-content: space-between;
 }
 
 .unreadMessageContainer {
-  width: 35px;
+  width: 25px;
   height: 20px;
   border-radius: 50%;
   background-color: red;

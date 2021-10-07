@@ -3,6 +3,7 @@ import {
   acceptWebSocket,
   WebSocket,
 } from "https://deno.land/x/abc@v1.3.3/vendor/https/deno.land/std/ws/mod.ts";
+import { abcCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 
 import { DB } from "https://deno.land/x/sqlite/mod.ts";
 const db = new DB("jim.db");
@@ -56,6 +57,10 @@ const allUsersQuery = db.prepareQuery<[number, string, string]>(
   "SELECT id,nickname,avatar FROM User"
 );
 
+const userQuery = db.prepareQuery<[number, string, string]>(
+  "SELECT id,nickname,avatar FROM User WHERE id = :id"
+);
+
 const contactsQuery = db.prepareQuery<[string]>(
   "SELECT contacts FROM User WHERE id = :id"
 );
@@ -69,7 +74,7 @@ const messageQuery = db.prepareQuery<[number, number, string, number]>(
 );
 
 const newMessageQuery = db.prepareQuery(
-  "INSERT INTO Message ([from],[to],content,timestamp) VALUES (:from,:to,:content,:timestamp)"
+  "INSERT INTO Message ([from],[to],content,timestamp) VALUES (:sender,:receiver,:content,:timestamp)"
 );
 
 const userMap: Map<number, WebSocket> = new Map();
@@ -80,6 +85,11 @@ app
   })
   .get("/all_users", (_ctx) => {
     return allUsersQuery.all().map((element) => new User(element));
+  })
+  .get(":id/self", (ctx) => {
+    const { id } = ctx.params;
+    const user = userQuery.one({ id });
+    return new User(user);
   })
   .get("/:id/contacts", (ctx) => {
     const { id } = ctx.params;
@@ -110,10 +120,16 @@ app
     userMap.set(userId, ws);
 
     for await (const e of ws) {
+      console.log(e);
       const wSMessage: WSMessage = JSON.parse(e.toString());
       if (wSMessage.type == WSMessageType.SEND_MESSAGE) {
         const { from, to, content, timestamp } = wSMessage.message;
-        messageQuery.execute({ from, to, content, timestamp });
+        newMessageQuery.execute({
+          sender: from,
+          receiver: to,
+          content,
+          timestamp,
+        });
         userMap
           .get(to)
           ?.send(
@@ -126,4 +142,5 @@ app
 
     userMap.delete(userId);
   })
+  .use(abcCors())
   .start({ hostname: "0.0.0.0", port: 11451 });

@@ -1,10 +1,18 @@
+const rawBaseUrl = "v04.local:11451";
+const baseUrl = `http://${rawBaseUrl}/`;
+const wsUrl = `ws://${rawBaseUrl}/`;
+
 import { InjectionKey } from "vue";
 import { createStore, Store, useStore as baseUseStore } from "vuex";
 import {
   Contact,
   ConversationOptions,
   Message,
+  MessageContent,
   NewMessage,
+  WSInnerMessage,
+  WSMessage,
+  WSMessageType,
 } from "./interfaces";
 import {
   ADD_CONTACT,
@@ -19,6 +27,12 @@ import {
   TRANSITION_START,
   TRANSITION_END,
   READ_MESSAGE,
+  INIT,
+  RESET,
+  SET_ID,
+  SET_SELF,
+  CHANGE_ID,
+  SEND_MESSAGE,
 } from "./mutationTypes";
 
 export interface State {
@@ -30,6 +44,7 @@ export interface State {
   title: string;
   showNavBar: boolean;
   transitioning: boolean;
+  ws: WebSocket | null;
 }
 
 export const key: InjectionKey<Store<State>> = Symbol();
@@ -49,6 +64,7 @@ export const store = createStore<State>({
     title: "",
     showNavBar: true,
     transitioning: false,
+    ws: null,
   },
 
   mutations: {
@@ -70,11 +86,13 @@ export const store = createStore<State>({
         state.conversations.get(newMessage.target) || [];
       currentConversation.push(newMessage.message);
       state.conversations.set(newMessage.target, currentConversation);
-      const newOptions =
-        state.conversationOptions.get(newMessage.target) ??
-        ({ pinned: false, removed: false, unread: 0 } as ConversationOptions);
-      newOptions.unread++;
-      state.conversationOptions.set(newMessage.target, newOptions);
+      if (newMessage.message.from != state.self.id) {
+        const newOptions =
+          state.conversationOptions.get(newMessage.target) ??
+          ({ pinned: false, removed: false, unread: 0 } as ConversationOptions);
+        newOptions.unread++;
+        state.conversationOptions.set(newMessage.target, newOptions);
+      }
     },
 
     [CHANGE_TRANSITION](state: State, transition: string) {
@@ -124,6 +142,21 @@ export const store = createStore<State>({
       newOptions.unread = 0;
       state.conversationOptions.set(target, newOptions);
     },
+
+    [RESET](state: State) {
+      state.contacts = [];
+      state.conversations = new Map();
+      state.conversationOptions = new Map();
+      state.ws?.close();
+    },
+
+    [SET_ID](state: State, id: number) {
+      state.self.id = id;
+    },
+
+    [SET_SELF](state: State, self: Contact) {
+      state.self = self;
+    },
   },
   getters: {
     sortedConversations(state: State) {
@@ -147,6 +180,72 @@ export const store = createStore<State>({
           elementB[1][elementB[1].length - 1].timestamp
       );
       return new Map([...pinnedConversations, ...unpinnedConversations]);
+    },
+  },
+  actions: {
+    async [INIT]({ state, commit }) {
+      commit(RESET);
+      const self: Contact = await (
+        await fetch(baseUrl + state.self.id + "/self")
+      ).json();
+      commit(SET_SELF, self);
+      const contacts: Contact[] = await (
+        await fetch(baseUrl + state.self.id + "/contacts")
+      ).json();
+      contacts.forEach((contact) => commit(ADD_CONTACT, contact));
+      const messages: WSInnerMessage[] = await (
+        await fetch(baseUrl + state.self.id + "/messages")
+      ).json();
+      messages.forEach((message) => {
+        const { content, from, timestamp, to } = message;
+        const target = from == state.self.id ? to : from;
+        const contentArray: MessageContent[] = JSON.parse(content);
+        commit(ADD_MESSAGE, {
+          target,
+          message: { from, to, timestamp, content: contentArray },
+        } as NewMessage);
+      });
+      const ws = new WebSocket(wsUrl + state.self.id + "/ws");
+      ws.onopen = () => {
+        state.ws = ws;
+      };
+      ws.onmessage = (message) => {
+        const wSMessage: WSMessage = JSON.parse(message.data);
+        if (wSMessage.type == WSMessageType.RECEIVE_MESSAGE) {
+          const { content, from, timestamp, to } = wSMessage.message;
+          const contentArray: MessageContent[] = JSON.parse(content);
+          const newMessage: NewMessage = {
+            message: {
+              from,
+              to,
+              timestamp,
+              content: contentArray,
+            },
+            target: from,
+          };
+          commit(ADD_MESSAGE, newMessage);
+        }
+      };
+    },
+
+    [CHANGE_ID]({ commit, dispatch }, id) {
+      commit(SET_ID, id);
+      dispatch(INIT);
+    },
+
+    [SEND_MESSAGE]({ commit, state }, message: NewMessage) {
+      commit(ADD_MESSAGE, message);
+      const { from, to, content, timestamp } = message.message;
+      state.ws?.send(
+        JSON.stringify(
+          new WSMessage(WSMessageType.SEND_MESSAGE, {
+            from,
+            to,
+            timestamp,
+            content: JSON.stringify(content),
+          })
+        )
+      );
     },
   },
 });
